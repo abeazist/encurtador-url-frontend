@@ -3,10 +3,8 @@ import TelaPrincipal from "./pages/TelaPrincipal";
 
 function App() {
   useEffect(() => {
-    // Força o navegador a usar o modo claro
+    // Força o modo claro, mas sem alterar suas cores
     document.documentElement.style.colorScheme = "light";
-    document.body.style.backgroundColor = "#fff"; // garante fundo branco
-    document.body.style.color = "#000"; // garante texto escuro
   }, []);
 
   return (
