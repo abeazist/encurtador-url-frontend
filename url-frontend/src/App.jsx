@@ -2,10 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TelaPrincipal from "./pages/TelaPrincipal";
 
 function App() {
-  useEffect(() => {
-    // Força o modo claro, mas sem alterar suas cores
-    document.documentElement.style.colorScheme = "light";
-  }, []);
 
   return (
     <BrowserRouter>
