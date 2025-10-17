@@ -5,6 +5,7 @@
     --extra-dark-gray: #868686;
     --blue: #3d84f4;
     --white: #ffffff;
+    --black: #000000;
 
 }
 
@@ -75,6 +76,8 @@ input{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 10px; 
+    padding: 0 10px;
 }
 
 .btn-encurtar{
@@ -82,6 +85,14 @@ input{
     color: var(--white);
     width: 18%;
 }
+
+.div-url-encurtar input {
+    flex: 1; 
+    min-width: 0; 
+}
+
+
+
 
 .meuLink{
     background-color: var(--white);
@@ -120,8 +131,7 @@ input{
 }
 
 .btn-edit, .btn-exclui{
-        flex: 1;
-
+    flex: 1;
     border-radius: 8px;
     width: 10%;
     border: 2px solid var(--dark-gray)
@@ -132,6 +142,8 @@ button {
     height: 35px;
     font-size: 0.9rem;
     padding: 0.4em 0.8em; 
+     flex-shrink: 0;
+      width: auto;
     
 }
 
@@ -143,7 +155,6 @@ hr{
 }
 
 .btn-salvar{
-    
     color: var(--white);
     background-color: var(--blue);
 }
@@ -188,7 +199,35 @@ hr{
 
 
 
-/* RESPONSIVO */
+/* Hoover dos botões */
+
+.btn-encurtar:hover {
+    background-color: #2f6ad4; 
+    cursor: pointer; 
+}
+
+.btn-salvar:hover {
+    background-color: #2f6ad4; 
+    cursor: pointer;
+}
+
+.btn-cancelar:hover {
+    background-color: #6e6e6e; 
+    cursor: pointer;
+}
+
+.btn-edit:hover, .btn-exclui:hover {
+    background-color: var(--black);
+    cursor: pointer;
+}
+
+.btn-copiar:hover {
+    background-color: var(--black);
+    cursor: pointer;
+}
+
+
+
 @media (max-width: 1px) {
     .campos{
         width: 90%;
@@ -196,6 +235,9 @@ hr{
     .div-url-encurtar{
         flex-direction: column;
         gap: 2px;
+        flex: 1 1 auto;
+        
+
     }
     .div-edicao-link{
         flex-direction: row; 
