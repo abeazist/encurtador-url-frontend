@@ -189,18 +189,18 @@ hr{
 
 
 /* RESPONSIVO */
-@media (max-width: 800px) {
+@media (max-width: 1px) {
     .campos{
         width: 90%;
     }
     .div-url-encurtar{
         flex-direction: column;
-        gap: 7px;
+        gap: 2px;
     }
     .div-edicao-link{
-        flex-direction: row; /* mantém copiar, editar e excluir lado a lado */
+        flex-direction: row; 
         justify-content: flex-start;
-        gap: 5px;
+        gap: 3px;
         flex-wrap: wrap;
     }
     .btn-copiar{

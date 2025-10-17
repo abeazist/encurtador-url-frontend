@@ -47,7 +47,7 @@ const TelaPrincipal = () => {
                     <p className="data"><CalendarBlank size={20} />Criado em 01/10/2025, 09:06</p>
                     <hr />
                     <div className="div-botoes">
-                        <button className="btn-copiar"><Cards size={20} />copiar</button>
+                        <button className="btn-copiar"><Cards size={20} />Copiar</button>
                         <button disabled className="btn-edit"><PencilSimple size={25} /></button>
                         <button className="btn-exclui"><Trash size={25} /></button>
                     </div>
