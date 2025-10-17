@@ -51,7 +51,8 @@ label, p, h3, h4, .data, .link {
 .campos{
     display: flex;
     flex-direction: column;
-    width: 90vw;
+    width: 100vw;
+    max-width: 700px;
 }
 
 input{
@@ -168,8 +169,7 @@ hr{
     color: var(--blue);
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
+} 
 .div-botoes button {
     height: 40px;
 }
