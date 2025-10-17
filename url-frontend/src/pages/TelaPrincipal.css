@@ -100,12 +100,16 @@ input{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    
 }
 
 .div-meus-links{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 8px;
+
+    
 }
 
 .btn-copiar{
@@ -116,6 +120,8 @@ input{
 }
 
 .btn-edit, .btn-exclui{
+        flex: 1;
+
     border-radius: 8px;
     width: 10%;
     border: 2px solid var(--dark-gray)
@@ -126,6 +132,7 @@ button {
     height: 35px;
     font-size: 0.9rem;
     padding: 0.4em 0.8em; 
+    
 }
 
 hr{
@@ -163,6 +170,7 @@ hr{
 .div-edicao-link{
     display: flex;
     justify-content: space-between;
+    gap: 5px;
 }
 
 .link{
@@ -176,4 +184,29 @@ hr{
 
 .box1 > div {
     max-width: 700px; 
+}
+
+
+
+/* RESPONSIVO */
+@media (max-width: 800px) {
+    .campos{
+        width: 90%;
+    }
+    .div-url-encurtar{
+        flex-direction: column;
+        gap: 7px;
+    }
+    .div-edicao-link{
+        flex-direction: row; /* mantém copiar, editar e excluir lado a lado */
+        justify-content: flex-start;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+    .btn-copiar{
+        flex: 1 1 auto;
+    }
+    .btn-edit, .btn-exclui{
+        flex: 0 0 40px;
+    }
 }
