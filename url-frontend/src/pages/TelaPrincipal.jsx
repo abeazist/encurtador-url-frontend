@@ -31,7 +31,7 @@ const TelaPrincipal = () => {
     try {
       await api.post("/api/links", {
         legenda,
-        url_original: url,
+        urlOriginal: url,
       });
 
       // Atualiza a lista após criar
