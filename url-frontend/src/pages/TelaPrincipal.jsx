@@ -13,7 +13,8 @@ const TelaPrincipal = () => {
     async function fetchLinks() {
       try {
         const response = await api.get("/api/links");
-        setLinks(response.data);
+        console.log(response.data);
+        setLinks(response.data.links);
       } catch (error) {
         console.error("Erro ao buscar links:", error);
       }
@@ -31,7 +32,7 @@ const TelaPrincipal = () => {
     try {
       await api.post("/api/links", {
         legenda,
-        urlOriginal: url,
+        url_original: url,
       });
 
       // Atualiza a lista após criar
@@ -93,10 +94,10 @@ const TelaPrincipal = () => {
 
         <div className="div-meus-links">
           <h3>Meus Links</h3>
-          <p>{links.length} link(s)</p>
+          <p>{Array.isArray(links) ? links.length : 0} link(s)</p>
         </div>
 
-        {links.map((link) => (
+        {Array.isArray(links) && links.map((link) => (
           <div className="meuLink" key={link.id}>
             <div className="titulo-meu-link">
               <h4>{link.legenda}</h4>
