@@ -119,8 +119,10 @@ input{
     flex-direction: row;
     justify-content: space-between;
     gap: 8px;
+}
 
-    
+.legendaEdita{
+    color: var(--black);
 }
 
 .btn-copiar{
@@ -252,3 +254,4 @@ hr{
         flex: 0 0 40px;
     }
 }
+

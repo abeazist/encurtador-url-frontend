@@ -10,6 +10,8 @@ const TelaPrincipal = () => {
   const [url, setUrl] = useState("");
   const [erro, setErro] = useState(""); // pra mostrar erros do back
 
+  const [editandoId, setEditandoId] = useState(null);
+  const [novaUrl, setNovaUrl] = useState("");
 
 
   // 🟢 Buscar todos os links ao carregar a página
@@ -55,35 +57,35 @@ const TelaPrincipal = () => {
   // }
 
 
-async function handleEncurtar() {
-  setErro(""); 
+  async function handleEncurtar() {
+    setErro("");
 
-  if (!legenda || !url) {
-    setErro("Preencha todos os campos!");
-    return;
-  }
+    if (!legenda || !url) {
+      setErro("Preencha todos os campos!");
+      return;
+    }
 
-  try {
-    const response = await api.post("/api/links", {
-      legenda,
-      url_original: url,
-    });
+    try {
+      const response = await api.post("/api/links", {
+        legenda,
+        url_original: url,
+      });
 
-    setLinks((prev) => [...prev, response.data]);
+      setLinks((prev) => [...prev, response.data]);
 
-    setLegenda("");
+      setLegenda("");
 
-    setUrl("");
-  } catch (error) {
-    console.error("Erro ao encurtar o link:", error);
+      setUrl("");
+    } catch (error) {
+      console.error("Erro ao encurtar o link:", error);
 
-    if (error.response?.data?.message) {
-      setErro(error.response.data.message);
-    } else {
-      setErro("Erro ao encurtar o link!");
+      if (error.response?.data?.message) {
+        setErro(error.response.data.message);
+      } else {
+        setErro("Erro ao encurtar o link!");
+      }
     }
   }
-}
 
 
 
@@ -99,6 +101,33 @@ async function handleEncurtar() {
     }
   }
 
+
+
+  function iniciarEdicao(link) {
+    setEditandoId(link.id);
+    setNovaUrl(link.urlOriginal);
+  }
+
+  function cancelarEdicao() {
+    setEditandoId(null);
+    setNovaUrl("");
+  }
+
+  async function salvarEdicao(id) {
+    try {
+      await api.put(`/api/links/${id}`, {
+        url_original: novaUrl,
+      });
+
+      setLinks(prev =>
+        prev.map(l => l.id === id ? { ...l, urlOriginal: novaUrl } : l)
+      );
+      cancelarEdicao();
+    } catch (error) {
+      console.error("Erro ao salvar edição:", error);
+      alert("Erro ao salvar edição!");
+    }
+  }
 
 
   return (
@@ -131,7 +160,7 @@ async function handleEncurtar() {
               Encurtar
             </button>
           </div>
-          
+
           {erro && <p style={{ color: "red", marginTop: "5px" }}>{erro}</p>}
 
         </div>
@@ -143,7 +172,60 @@ async function handleEncurtar() {
           <p>{Array.isArray(links) ? links.length : 0} link(s)</p>
         </div>
 
-        {Array.isArray(links) && links.map((link) => (
+        {links.map((link) => (
+          <div className="meuLink" key={link.id}>
+            {editandoId === link.id ? (
+              <>
+                <p className="link">
+                  <h4 className="legendaEdita">{link.legenda}</h4>
+                  <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
+                </p>
+                <div className="div-edicao-link">
+                  <input
+                    type="text"
+                    value={novaUrl}
+                    onChange={(e) => setNovaUrl(e.target.value)}
+                  />
+                  <button className="btn-salvar" onClick={() => salvarEdicao(link.id)}>Salvar</button>
+                  <button className="btn-cancelar" onClick={cancelarEdicao}>Cancelar</button>
+                </div>
+              </>
+            ) : (
+
+              <>
+                <div className="titulo-meu-link">
+                  <h4>{link.legenda}</h4>
+                  <p id="dado"><ChartLine size={20} /> {link.clicks}</p>
+                </div>
+                <p className="link">
+                  <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
+                  <p>{link.urlOriginal}</p>
+                </p>
+                <p className="data"><CalendarBlank size={20} /> Criado em {new Date(link.dataCriacao).toLocaleString("pt-BR")}</p>
+              </>
+            )}
+
+            <hr />
+            <div className="div-botoes">
+              <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(link.idLinkEncurtado)}>
+                <Cards size={20} /> Copiar
+              </button>
+              <button
+                className="btn-edit"
+                disabled={editandoId === link.id}
+                onClick={() => iniciarEdicao(link)}
+              >
+                <PencilSimple size={25} />
+              </button>
+              <button className="btn-exclui" onClick={() => handleExcluir(link.id)}>
+                <Trash size={25} />
+              </button>
+            </div>
+          </div>
+        ))}
+
+
+        {/* {Array.isArray(links) && links.map((link) => (
           <div className="meuLink" key={link.id}>
             <div className="titulo-meu-link">
               <h4>{link.legenda}</h4>
@@ -175,7 +257,7 @@ async function handleEncurtar() {
               </button>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
