@@ -5,8 +5,10 @@ import { PencilSimple, Trash, Cards, ChartLine, CalendarBlank } from "@phosphor-
 
 const TelaPrincipal = () => {
   const [links, setLinks] = useState([]);
+  const [idLinkEncurtado, setIdLinkEncurtado] = useState([])
   const [legenda, setLegenda] = useState("");
   const [url, setUrl] = useState("");
+
 
   // 🟢 Buscar todos os links ao carregar a página
   useEffect(() => {
@@ -14,7 +16,7 @@ const TelaPrincipal = () => {
       try {
         const response = await api.get("/api/links");
         console.log(response.data);
-        setLinks(response.data.links);
+        setLinks(response.data);
       } catch (error) {
         console.error("Erro ao buscar links:", error);
       }
@@ -31,6 +33,7 @@ const TelaPrincipal = () => {
 
     try {
       await api.post("/api/links", {
+        idLinkEncurtado,
         legenda,
         url_original: url,
       });
@@ -40,6 +43,7 @@ const TelaPrincipal = () => {
       setLinks(data);
 
       // Limpa os campos
+      setIdLinkEncurtado("")
       setLegenda("");
       setUrl("");
     } catch (error) {
@@ -59,6 +63,8 @@ const TelaPrincipal = () => {
       console.error("Erro ao excluir:", error);
     }
   }
+
+
 
   return (
     <div className="box1">
@@ -92,6 +98,8 @@ const TelaPrincipal = () => {
           </div>
         </div>
 
+
+
         <div className="div-meus-links">
           <h3>Meus Links</h3>
           <p>{Array.isArray(links) ? links.length : 0} link(s)</p>
@@ -107,21 +115,23 @@ const TelaPrincipal = () => {
             </div>
 
             <p className="link">
-              <a href={link.url_original} target="_blank">
-                {link.url_original}
+              <a href={link.urlOriginal} target="_blank">
+                {link.idLinkEncurtado}
               </a>
+              <p>{link.urlOriginal}</p>
             </p>
 
             <p className="data">
               <CalendarBlank size={20} /> Criado em{" "}
-              {new Date(link.data_criacao).toLocaleString("pt-BR")}
+              {new Date(link.dataCriacao).toLocaleString("pt-BR")}
             </p>
             <hr />
 
             <div className="div-botoes">
-              <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(link.url_original)}>
+              <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(link.idLinkEncurtado)}>
                 <Cards size={20} /> Copiar
               </button>
+              <button className="btn-edit"><PencilSimple size={25} /></button>
               <button className="btn-exclui" onClick={() => handleExcluir(link.id)}>
                 <Trash size={25} />
               </button>
