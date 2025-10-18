@@ -8,6 +8,8 @@ const TelaPrincipal = () => {
   const [idLinkEncurtado, setIdLinkEncurtado] = useState([])
   const [legenda, setLegenda] = useState("");
   const [url, setUrl] = useState("");
+  const [erro, setErro] = useState(""); // pra mostrar erros do back
+
 
 
   // 🟢 Buscar todos os links ao carregar a página
@@ -24,33 +26,66 @@ const TelaPrincipal = () => {
     fetchLinks();
   }, []);
 
-  // 🟣 Criar um novo link encurtado
-  async function handleEncurtar() {
-    if (!legenda || !url) {
-      alert("Preencha todos os campos!");
-      return;
-    }
+  // criar um novo link encurtado
+  // async function handleEncurtar() {
+  //   if (!legenda || !url) {
+  //     alert("Preencha todos os campos!");
+  //     return;
+  //   }
 
-    try {
-      await api.post("/api/links", {
-        idLinkEncurtado,
-        legenda,
-        url_original: url,
-      });
+  //   try {
+  //     await api.post("/api/links", {
+  //       idLinkEncurtado,
+  //       legenda,
+  //       url_original: url,
+  //     });
 
-      // Atualiza a lista após criar
-      const { data } = await api.get("/api/links");
-      setLinks(data);
+  //     // Atualiza a lista após criar
+  //     const { data } = await api.get("/api/links");
+  //     setLinks(data);
 
-      // Limpa os campos
-      setIdLinkEncurtado("")
-      setLegenda("");
-      setUrl("");
-    } catch (error) {
-      console.error("Erro ao encurtar o link:", error);
-      alert("Erro ao encurtar o link!");
+  //     // Limpa os campos
+  //     setIdLinkEncurtado("")
+  //     setLegenda("");
+  //     setUrl("");
+  //   } catch (error) {
+  //     console.error("Erro ao encurtar o link:", error);
+  //     alert("Erro ao encurtar o link!");
+  //   }
+  // }
+
+
+async function handleEncurtar() {
+  setErro(""); 
+
+  if (!legenda || !url) {
+    setErro("Preencha todos os campos!");
+    return;
+  }
+
+  try {
+    const response = await api.post("/api/links", {
+      legenda,
+      url_original: url,
+    });
+
+    setLinks((prev) => [...prev, response.data]);
+
+    setLegenda("");
+
+    setUrl("");
+  } catch (error) {
+    console.error("Erro ao encurtar o link:", error);
+
+    if (error.response?.data?.message) {
+      setErro(error.response.data.message);
+    } else {
+      setErro("Erro ao encurtar o link!");
     }
   }
+}
+
+
 
   // 🧨 Excluir link
   async function handleExcluir(id) {
@@ -96,6 +131,9 @@ const TelaPrincipal = () => {
               Encurtar
             </button>
           </div>
+          
+          {erro && <p style={{ color: "red", marginTop: "5px" }}>{erro}</p>}
+
         </div>
 
 
