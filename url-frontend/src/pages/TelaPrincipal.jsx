@@ -11,6 +11,7 @@ const TelaPrincipal = () => {
   const [erro, setErro] = useState(""); // pra mostrar erros do back
 
   const [editandoId, setEditandoId] = useState(null);
+  const [novaLegenda, setNovaLegenda] = useState("");
   const [novaUrl, setNovaUrl] = useState("");
 
 
@@ -105,22 +106,25 @@ const TelaPrincipal = () => {
 
   function iniciarEdicao(link) {
     setEditandoId(link.id);
+    setNovaLegenda(link.legenda);
     setNovaUrl(link.urlOriginal);
   }
 
   function cancelarEdicao() {
     setEditandoId(null);
+    setNovaLegenda("");
     setNovaUrl("");
   }
 
   async function salvarEdicao(id) {
     try {
       await api.put(`/api/links/${id}`, {
+        legenda: novaLegenda,
         url_original: novaUrl,
       });
 
       setLinks(prev =>
-        prev.map(l => l.id === id ? { ...l, urlOriginal: novaUrl } : l)
+        prev.map(l => l.id === id ? { ...l, legenda: novaLegenda, urlOriginal: novaUrl } : l)
       );
       cancelarEdicao();
     } catch (error) {
@@ -176,56 +180,60 @@ const TelaPrincipal = () => {
           <div className="meuLink" key={link.id}>
             {editandoId === link.id ? (
               <>
-                <p className="link">
-                  <h4 className="legendaEdita">{link.legenda}</h4>
-                  <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
-                </p>
-                <div className="div-edicao-link">
+                <div className="titulo-meu-link">
                   <input
                     type="text"
-                    value={novaUrl}
-                    onChange={(e) => setNovaUrl(e.target.value)}
+                    value={novaLegenda}
+                    onChange={(e) => setNovaLegenda(e.target.value)}
                   />
-                  <button className="btn-salvar" onClick={() => salvarEdicao(link.id)}>Salvar</button>
-                  <button className="btn-cancelar" onClick={cancelarEdicao}>Cancelar</button>
                 </div>
-              </>
-            ) : (
+              </p>
+            <div className="div-edicao-link">
+              <input
+                type="text"
+                value={novaUrl}
+                onChange={(e) => setNovaUrl(e.target.value)}
+              />
+              <button className="btn-salvar" onClick={() => salvarEdicao(link.id)}>Salvar</button>
+              <button className="btn-cancelar" onClick={cancelarEdicao}>Cancelar</button>
+            </div>
+          </>
+        ) : (
 
-              <>
-                <div className="titulo-meu-link">
-                  <h4>{link.legenda}</h4>
-                  <p id="dado"><ChartLine size={20} /> {link.clicks}</p>
-                </div>
-                <p className="link">
-                  <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
-                  <p>{link.urlOriginal}</p>
-                </p>
-                <p className="data"><CalendarBlank size={20} /> Criado em {new Date(link.dataCriacao).toLocaleString("pt-BR")}</p>
-              </>
+        <>
+          <div className="titulo-meu-link">
+            <h4>{link.legenda}</h4>
+            <p id="dado"><ChartLine size={20} /> {link.clicks}</p>
+          </div>
+          <p className="link">
+            <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
+            <p>{link.urlOriginal}</p>
+          </p>
+          <p className="data"><CalendarBlank size={20} /> Criado em {new Date(link.dataCriacao).toLocaleString("pt-BR")}</p>
+        </>
             )}
 
-            <hr />
-            <div className="div-botoes">
-              <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(link.idLinkEncurtado)}>
-                <Cards size={20} /> Copiar
-              </button>
-              <button
-                className="btn-edit"
-                disabled={editandoId === link.id}
-                onClick={() => iniciarEdicao(link)}
-              >
-                <PencilSimple size={25} />
-              </button>
-              <button className="btn-exclui" onClick={() => handleExcluir(link.id)}>
-                <Trash size={25} />
-              </button>
-            </div>
-          </div>
+        <hr />
+        <div className="div-botoes">
+          <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(link.idLinkEncurtado)}>
+            <Cards size={20} /> Copiar
+          </button>
+          <button
+            className="btn-edit"
+            disabled={editandoId === link.id}
+            onClick={() => iniciarEdicao(link)}
+          >
+            <PencilSimple size={25} />
+          </button>
+          <button className="btn-exclui" onClick={() => handleExcluir(link.id)}>
+            <Trash size={25} />
+          </button>
+        </div>
+      </div>
         ))}
 
 
-        {/* {Array.isArray(links) && links.map((link) => (
+      {/* {Array.isArray(links) && links.map((link) => (
           <div className="meuLink" key={link.id}>
             <div className="titulo-meu-link">
               <h4>{link.legenda}</h4>
@@ -258,8 +266,8 @@ const TelaPrincipal = () => {
             </div>
           </div>
         ))} */}
-      </div>
     </div>
+    </div >
   );
 };
 
