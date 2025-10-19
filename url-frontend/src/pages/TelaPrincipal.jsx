@@ -215,7 +215,7 @@ const TelaPrincipal = () => {
 
         <hr />
         <div className="div-botoes">
-          <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(link.idLinkEncurtado)}>
+          <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(`https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`)}>
             <Cards size={20} /> Copiar
           </button>
           <button
