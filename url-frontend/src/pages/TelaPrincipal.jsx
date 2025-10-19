@@ -40,7 +40,7 @@ const TelaPrincipal = () => {
   //     await api.post("/api/links", {
   //       idLinkEncurtado,
   //       legenda,
-  //       url_original: url,
+  //       urlOriginal: url,
   //     });
 
   //     // Atualiza a lista após criar
@@ -69,7 +69,7 @@ const TelaPrincipal = () => {
     try {
       const response = await api.post("/api/links", {
         legenda,
-        url_original: url,
+        urlOriginal: url,
       });
 
       setLinks((prev) => [...prev, response.data]);
@@ -187,7 +187,7 @@ const TelaPrincipal = () => {
                     onChange={(e) => setNovaLegenda(e.target.value)}
                   />
                 </div>
-              </p>
+              
             <div className="div-edicao-link">
               <input
                 type="text"
