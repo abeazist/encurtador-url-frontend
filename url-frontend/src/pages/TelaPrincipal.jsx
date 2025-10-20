@@ -2,20 +2,39 @@ import React, { useEffect, useState } from "react";
 import './TelaPrincipal.css';
 import api from "../services/api"; // <-- import da API
 import { PencilSimple, Trash, Cards, ChartLine, CalendarBlank } from "@phosphor-icons/react";
+import * as QRCode from 'qrcode.react';
+
+const LinkItem = ({ shortUrl }) => {
+const [showQR, setShowQR] = useState(false);
+
+  return (
+    <div className="link-item">
+      <p>{shortUrl}</p>
+      <button onClick={() => setShowQR(!showQR)}>
+        {showQR ? "Esconder QR Code" : "Ver QR Code"}
+      </button>
+      {showQR && (
+        <div className="qr-container">
+          <QRCode value={shortUrl} size={128} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+
 
 const TelaPrincipal = () => {
   const [links, setLinks] = useState([]);
   const [idLinkEncurtado, setIdLinkEncurtado] = useState([])
   const [legenda, setLegenda] = useState("");
   const [url, setUrl] = useState("");
-  const [erro, setErro] = useState(""); // pra mostrar erros do back
-
+  const [erro, setErro] = useState(""); 
   const [editandoId, setEditandoId] = useState(null);
   const [novaLegenda, setNovaLegenda] = useState("");
   const [novaUrl, setNovaUrl] = useState("");
 
 
-  // 🟢 Buscar todos os links ao carregar a página
   useEffect(() => {
     async function fetchLinks() {
       try {
@@ -90,7 +109,6 @@ const TelaPrincipal = () => {
 
 
 
-  // 🧨 Excluir link
   async function handleExcluir(id) {
     if (!confirm("Tem certeza que deseja excluir este link?")) return;
 
@@ -206,7 +224,7 @@ const TelaPrincipal = () => {
             <p id="dado"><ChartLine size={20} /> {link.numCliques}</p>
           </div>
           <p className="link">
-            <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
+<LinkItem shortUrl={`https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`} />
             <p>{link.urlOriginal}</p>
           </p>
           <p className="data"><CalendarBlank size={20} /> Criado em {new Date(link.dataCriacao).toLocaleString("pt-BR")}</p>
