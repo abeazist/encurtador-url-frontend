@@ -203,7 +203,7 @@ const TelaPrincipal = () => {
         <>
           <div className="titulo-meu-link">
             <h4>{link.legenda}</h4>
-            <p id="dado"><ChartLine size={20} /> {link.clicks}</p>
+            <p id="dado"><ChartLine size={20} /> {link.numCliques}</p>
           </div>
           <p className="link">
             <a href={link.urlOriginal} target="_blank">{link.idLinkEncurtado}</a>
