@@ -22,7 +22,21 @@ Esta é uma aplicação web desenvolvida com o objetivo de encurtar URLs longas 
 
 ## Funcionalidade Extra
 
-> 
+> Foi implementada a funcionalidade de visualização de QR Code para cada link encurtado.
+
+# Motivação:
+
+Tornar o compartilhamento de links mais ágil e prático, especialmente em situações em que utilizar a URL gerada não é conveniente.
+
+Agregar valor à aplicação, oferecendo uma experiência adicional além da simples geração de links encurtados.
+
+Demonstrar a integração de bibliotecas externas (como qrcode.react) com o front-end React, aumentando a robustez e interatividade do sistema.
+
+# Como funciona:
+
+Cada link listado possui um botão “Ver QR Code”.
+
+Ao clicar, o QR Code correspondente ao link gerado e é exibido na tela.
 
 
 ---
