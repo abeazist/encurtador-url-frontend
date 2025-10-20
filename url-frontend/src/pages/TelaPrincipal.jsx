@@ -223,8 +223,11 @@ const TelaPrincipal = () => {
               <>
                 <div className="titulo-meu-link">
                   <h4>{link.legenda}</h4>
-                  <p id="dado">
+                  <p>
                     {link.numCliques}
+
+                  </p>
+                  <p id="dado">
                     <ChartLine size={20} /> 
                   </p>
                 </div>
