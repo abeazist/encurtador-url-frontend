@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
-import './TelaPrincipal.css';
+import "./TelaPrincipal.css";
 import api from "../services/api"; // <-- import da API
-import { PencilSimple, Trash, Cards, ChartLine, CalendarBlank } from "@phosphor-icons/react";
+import {
+  PencilSimple,
+  Trash,
+  Cards,
+  ChartLine,
+  CalendarBlank,
+} from "@phosphor-icons/react";
 // import * as QRCode from 'qrcode.react';
 
 // const LinkItem = ({ shortUrl }) => {
@@ -22,18 +28,15 @@ import { PencilSimple, Trash, Cards, ChartLine, CalendarBlank } from "@phosphor-
 //   );
 // };
 
-
-
 const TelaPrincipal = () => {
   const [links, setLinks] = useState([]);
-  const [idLinkEncurtado, setIdLinkEncurtado] = useState([])
+  const [idLinkEncurtado, setIdLinkEncurtado] = useState([]);
   const [legenda, setLegenda] = useState("");
   const [url, setUrl] = useState("");
-  const [erro, setErro] = useState(""); 
+  const [erro, setErro] = useState("");
   const [editandoId, setEditandoId] = useState(null);
   const [novaLegenda, setNovaLegenda] = useState("");
   const [novaUrl, setNovaUrl] = useState("");
-
 
   useEffect(() => {
     async function fetchLinks() {
@@ -76,7 +79,6 @@ const TelaPrincipal = () => {
   //   }
   // }
 
-
   async function handleEncurtar() {
     setErro("");
 
@@ -107,8 +109,6 @@ const TelaPrincipal = () => {
     }
   }
 
-
-
   async function handleExcluir(id) {
     if (!confirm("Tem certeza que deseja excluir este link?")) return;
 
@@ -119,8 +119,6 @@ const TelaPrincipal = () => {
       console.error("Erro ao excluir:", error);
     }
   }
-
-
 
   function iniciarEdicao(link) {
     setEditandoId(link.id);
@@ -141,8 +139,10 @@ const TelaPrincipal = () => {
         url_original: novaUrl,
       });
 
-      setLinks(prev =>
-        prev.map(l => l.id === id ? { ...l, legenda: novaLegenda, urlOriginal: novaUrl } : l)
+      setLinks((prev) =>
+        prev.map((l) =>
+          l.id === id ? { ...l, legenda: novaLegenda, urlOriginal: novaUrl } : l
+        )
       );
       cancelarEdicao();
     } catch (error) {
@@ -150,7 +150,6 @@ const TelaPrincipal = () => {
       alert("Erro ao salvar edição!");
     }
   }
-
 
   return (
     <div className="box1">
@@ -184,10 +183,7 @@ const TelaPrincipal = () => {
           </div>
 
           {erro && <p style={{ color: "red", marginTop: "5px" }}>{erro}</p>}
-
         </div>
-
-
 
         <div className="div-meus-links">
           <h3>Meus Links</h3>
@@ -205,54 +201,77 @@ const TelaPrincipal = () => {
                     onChange={(e) => setNovaLegenda(e.target.value)}
                   />
                 </div>
-              
-            <div className="div-edicao-link">
-              <input
-                type="text"
-                value={novaUrl}
-                onChange={(e) => setNovaUrl(e.target.value)}
-              />
-              <button className="btn-salvar" onClick={() => salvarEdicao(link.id)}>Salvar</button>
-              <button className="btn-cancelar" onClick={cancelarEdicao}>Cancelar</button>
-            </div>
-          </>
-        ) : (
 
-        <>
-          <div className="titulo-meu-link">
-            <h4>{link.legenda}</h4>
-            <p id="dado"><ChartLine size={20} /> {link.numCliques}</p>
-          </div>
-          <p className="link">
-            <a href="https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}"></a>
-{/* <a={`https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`} /> */}
-            <p>{link.urlOriginal}</p>
-          </p>
-          <p className="data"><CalendarBlank size={20} /> Criado em {new Date(link.dataCriacao).toLocaleString("pt-BR")}</p>
-        </>
+                <div className="div-edicao-link">
+                  <input
+                    type="text"
+                    value={novaUrl}
+                    onChange={(e) => setNovaUrl(e.target.value)}
+                  />
+                  <button
+                    className="btn-salvar"
+                    onClick={() => salvarEdicao(link.id)}
+                  >
+                    Salvar
+                  </button>
+                  <button className="btn-cancelar" onClick={cancelarEdicao}>
+                    Cancelar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="titulo-meu-link">
+                  <h4>{link.legenda}</h4>
+                  <p id="dado">
+                    {link.numCliques}
+                    <ChartLine size={20} /> 
+                  </p>
+                </div>
+                <p className="link">
+                  <a href={link.urlOriginal} target="_blank">
+                    {link.idLinkEncurtado}
+                  </a>
+                  {/* <a={`https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`} /> */}
+                  <p>{link.urlOriginal}</p>
+                </p>
+                <p className="data">
+                  <CalendarBlank size={20} /> Criado em{" "}
+                  {new Date(link.dataCriacao).toLocaleString("pt-BR")}
+                </p>
+              </>
             )}
 
-        <hr />
-        <div className="div-botoes">
-          <button className="btn-copiar" onClick={() => navigator.clipboard.writeText(`https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`)}>
-            <Cards size={20} /> Copiar
-          </button>
-          <button
-            className="btn-edit"
-            disabled={editandoId === link.id}
-            onClick={() => iniciarEdicao(link)}
-          >
-            <PencilSimple size={25} />
-          </button>
-          <button className="btn-exclui" onClick={() => handleExcluir(link.id)}>
-            <Trash size={25} />
-          </button>
-        </div>
-      </div>
+            <hr />
+            <div className="div-botoes">
+              <button
+                className="btn-copiar"
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    `https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`
+                  )
+                }
+              >
+                <Cards size={20} /> Copiar
+              </button>
+              <button
+                className="btn-edit"
+                disabled={editandoId === link.id}
+                onClick={() => iniciarEdicao(link)}
+              >
+                <PencilSimple size={25} />
+              </button>
+              <button
+                className="btn-exclui"
+                onClick={() => handleExcluir(link.id)}
+              >
+                <Trash size={25} />
+              </button>
+            </div>
+          </div>
         ))}
 
-
-      {/* {Array.isArray(links) && links.map((link) => (
+        {/* {Array.isArray(links) && links.map((link) => (
           <div className="meuLink" key={link.id}>
             <div className="titulo-meu-link">
               <h4>{link.legenda}</h4>
@@ -285,8 +304,8 @@ const TelaPrincipal = () => {
             </div>
           </div>
         ))} */}
+      </div>
     </div>
-    </div >
   );
 };
 
