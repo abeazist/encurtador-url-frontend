@@ -29,7 +29,7 @@ html {
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background-color: var(--light-gray);
+    background-color: var(--blue);
 }
 
 .titulo{
@@ -47,6 +47,7 @@ html {
 
 label, p, h3, h4, .data, .link {
     font-size: 0.9rem;
+    color: var(--black);
 }
 
 .campos{
@@ -81,7 +82,7 @@ input{
 }
 
 .btn-encurtar{
-    background-color: var(--blue);
+    background-color: var(--black);
     color: var(--white);
     width: 18%;
 }
