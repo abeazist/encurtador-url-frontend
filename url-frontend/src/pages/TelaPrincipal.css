@@ -66,6 +66,7 @@ input{
     padding-left: 10px;
     background-color: var(--light-gray);
     border: 2px solid var(--dark-gray);
+    color: #000000;
 
 }
 
