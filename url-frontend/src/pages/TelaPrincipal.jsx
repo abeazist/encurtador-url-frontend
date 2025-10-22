@@ -251,7 +251,7 @@ const TelaPrincipal = () => {
                 className="btn-copiar"
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`
+                    `https://encurtador-url-frontend-dun.vercel.app/${link.idLinkEncurtado}`
                   )
                 }
               >
