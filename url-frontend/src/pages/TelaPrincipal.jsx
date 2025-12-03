@@ -80,18 +80,22 @@ const TelaPrincipal = () => {
   // }
 
   async function handleEncurtar() {
+    console.log("Tentando encurtar o link...");
     setErro("");
 
     if (!legenda || !url) {
       setErro("Preencha todos os campos!");
       return;
     }
+    console.log("Campos preenchidos, enviando para a API...");
 
     try {
       const response = await api.post("/api/links", {
         legenda,
         urlOriginal: url,
       });
+
+      console.log("Link encurtado com sucesso:", response.data);
 
       setLinks((prev) => [...prev, response.data]);
 
@@ -236,7 +240,7 @@ const TelaPrincipal = () => {
                     {link.idLinkEncurtado}
                   </a>
                   {/* <a={`https://encurtador-url-backend.onrender.com/${link.idLinkEncurtado}`} /> */}
-                  <p>{link.urlOriginal}</p>
+                  <span>{link.urlOriginal}</span>
                 </p>
                 <p className="data">
                   <CalendarBlank size={20} /> Criado em{" "}
